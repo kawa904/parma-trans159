@@ -2,7 +2,6 @@ from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 import requests
 import os
-import json
 
 app = FastAPI()
 
@@ -670,10 +669,14 @@ async def index():
             box-shadow: 0 8px 30px rgba(37, 211, 102, 0.3);
         }
 
-        .sticky-btn.whatsapp-btn {
-            background: linear-gradient(135deg, #25d366, #128c7e);
+        .sticky-btn.vk-btn {
+            background: linear-gradient(135deg, #4a76a8, #2c5b8a);
             color: #ffffff;
-            box-shadow: 0 8px 30px rgba(37, 211, 102, 0.3);
+            box-shadow: 0 8px 30px rgba(74, 118, 168, 0.3);
+        }
+
+        .sticky-btn.vk-btn:hover {
+            background: linear-gradient(135deg, #5a86b8, #3a6b9a) !important;
         }
 
         .sticky-btn:hover {
@@ -822,7 +825,7 @@ async def index():
                 <div class="contact-item">
                     <i class="fas fa-phone"></i>
                     <div>
-                        <div class="contact-text">+7 (342) 555-53-55</div>
+                        <div class="contact-text">+7 (908) 240-07-46</div>
                         <div class="contact-label">Телефон</div>
                     </div>
                 </div>
@@ -970,17 +973,17 @@ async def index():
 
     <!-- ===== ЛИПКАЯ КНОПКА ===== -->
     <div class="sticky-bottom">
-        <a href="tel:+73425555355" class="sticky-btn call-btn">
+        <a href="tel:+79082400746" class="sticky-btn call-btn">
             <i class="fas fa-phone"></i>
             <div>
                 <div>Позвонить</div>
                 <div class="btn-label">24/7 бесплатно</div>
             </div>
         </a>
-        <a href="https://wa.me/79573453249" target="_blank" class="sticky-btn whatsapp-btn">
-            <i class="fab fa-whatsapp"></i>
+        <a href="https://vk.com/im/convo/-240071296?entrypoint=community_page&tab=all" target="_blank" class="sticky-btn vk-btn">
+            <i class="fab fa-vk"></i>
             <div>
-                <div>WhatsApp</div>
+                <div>VK</div>
                 <div class="btn-label">Написать</div>
             </div>
         </a>
