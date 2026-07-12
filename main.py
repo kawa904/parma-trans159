@@ -1,9 +1,7 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
-from fastapi.staticfiles import StaticFiles
 import requests
 import os
-import json
 
 app = FastAPI()
 
@@ -24,7 +22,6 @@ async def index():
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ===== БАЗА ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', sans-serif;
@@ -34,7 +31,6 @@ async def index():
             align-items: center;
             justify-content: center;
             padding: 20px;
-            overflow: hidden;
             position: relative;
         }
 
@@ -53,7 +49,7 @@ async def index():
         .glass-card {
             position: relative;
             z-index: 1;
-            max-width: 520px;
+            max-width: 560px;
             width: 100%;
             background: rgba(255, 255, 255, 0.04);
             backdrop-filter: blur(24px);
@@ -91,7 +87,7 @@ async def index():
             display: flex;
             align-items: center;
             gap: 16px;
-            margin-bottom: 28px;
+            margin-bottom: 20px;
         }
 
         .logo-icon {
@@ -106,11 +102,6 @@ async def index():
         @keyframes floatIcon {
             0%, 100% { transform: translateY(0px) rotate(-2deg); }
             50% { transform: translateY(-6px) rotate(2deg); }
-        }
-
-        .logo-text {
-            display: flex;
-            flex-direction: column;
         }
 
         .logo-text h1 {
@@ -144,19 +135,18 @@ async def index():
             letter-spacing: 1px;
             text-transform: uppercase;
             border: 1px solid rgba(245, 200, 66, 0.12);
-            margin-bottom: 20px;
-            backdrop-filter: blur(4px);
+            margin-bottom: 16px;
         }
 
         .badge i { margin-right: 8px; }
 
         /* ===== ЗАГОЛОВОК ===== */
         .hero-title {
-            font-size: 36px;
+            font-size: 34px;
             font-weight: 800;
             color: #ffffff;
             line-height: 1.15;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
         }
 
         .hero-title span { color: #f5c842; }
@@ -165,14 +155,90 @@ async def index():
             color: rgba(255, 255, 255, 0.5);
             font-size: 15px;
             line-height: 1.6;
-            margin-bottom: 28px;
+            margin-bottom: 20px;
             font-weight: 400;
+        }
+
+        /* ===== ОСОБЕННОСТИ (иконки) ===== */
+        .features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 10px 14px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            background: rgba(245, 200, 66, 0.06);
+            border-color: rgba(245, 200, 66, 0.12);
+            transform: translateY(-2px);
+        }
+
+        .feature-item i {
+            font-size: 18px;
+            color: #f5c842;
+            width: 28px;
+            text-align: center;
+        }
+
+        .feature-item span {
+            font-size: 13px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .feature-item small {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.3);
+            display: block;
+            font-weight: 400;
+        }
+
+        /* ===== СТАТИСТИКА ===== */
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 24px;
+            padding: 16px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-item .num {
+            font-size: 24px;
+            font-weight: 800;
+            color: #f5c842;
+            display: block;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-item .label {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.3);
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         /* ===== ФОРМА ===== */
         .form-group {
             position: relative;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
         }
 
         .form-group i {
@@ -206,7 +272,7 @@ async def index():
         }
 
         .form-group textarea {
-            min-height: 90px;
+            min-height: 80px;
             resize: vertical;
             padding-top: 18px;
         }
@@ -234,7 +300,7 @@ async def index():
             display: flex;
             align-items: flex-start;
             gap: 12px;
-            margin: 14px 0;
+            margin: 12px 0;
             font-size: 13px;
             color: rgba(255, 255, 255, 0.5);
             line-height: 1.4;
@@ -258,7 +324,6 @@ async def index():
         }
 
         .checkbox-group a:hover { border-color: #f5c842; }
-
         .required { color: #f5c842; }
 
         /* ===== КНОПКА ===== */
@@ -276,9 +341,7 @@ async def index():
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 8px 30px rgba(245, 200, 66, 0.25);
-            position: relative;
-            overflow: hidden;
-            margin-top: 6px;
+            margin-top: 4px;
             letter-spacing: 0.5px;
             animation: gradientShift 3s ease-in-out infinite;
         }
@@ -294,21 +357,6 @@ async def index():
         }
 
         .submit-btn:active { transform: translateY(0px) scale(0.99); }
-
-        .submit-btn::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 60%);
-            opacity: 0;
-            transition: opacity 0.6s ease;
-        }
-
-        .submit-btn:hover::after { opacity: 1; }
-
         .submit-btn:disabled {
             opacity: 0.6;
             cursor: not-allowed;
@@ -318,49 +366,19 @@ async def index():
 
         /* ===== СТАТУС ===== */
         #status {
-            margin-top: 16px;
+            margin-top: 14px;
             text-align: center;
             font-weight: 600;
             font-size: 14px;
             min-height: 24px;
         }
-
         .success { color: #81c784; }
         .error { color: #ef9a9a; }
 
-        /* ===== СТАТИСТИКА ===== */
-        .stats {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 28px;
-            padding-top: 24px;
-            border-top: 1px solid rgba(255, 255, 255, 0.04);
-        }
-
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-item .num {
-            font-size: 22px;
-            font-weight: 800;
-            color: #f5c842;
-            display: block;
-            letter-spacing: 0.5px;
-        }
-
-        .stat-item .label {
-            font-size: 11px;
-            color: rgba(255, 255, 255, 0.3);
-            font-weight: 400;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
         /* ===== ФУТЕР ===== */
         .footer {
-            margin-top: 24px;
-            padding-top: 20px;
+            margin-top: 20px;
+            padding-top: 16px;
             border-top: 1px solid rgba(255, 255, 255, 0.04);
             text-align: center;
             font-size: 12px;
@@ -378,26 +396,31 @@ async def index():
 
         /* ===== АДАПТИВ ===== */
         @media (max-width: 600px) {
-            .glass-card { padding: 32px 20px; border-radius: 32px; }
-            .hero-title { font-size: 28px; }
+            .glass-card { padding: 28px 18px; border-radius: 32px; }
+            .hero-title { font-size: 26px; }
             .logo-text h1 { font-size: 22px; }
-            .logo-icon { font-size: 36px; }
-            .stats { flex-wrap: wrap; gap: 16px; }
-            .stat-item { flex: 1 1 45%; }
+            .logo-icon { font-size: 34px; }
+            .features { grid-template-columns: 1fr 1fr; gap: 8px; }
+            .feature-item { padding: 8px 12px; }
+            .feature-item span { font-size: 12px; }
+            .stats { grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+            .stat-item .num { font-size: 20px; }
         }
 
         @media (max-width: 400px) {
-            .glass-card { padding: 24px 16px; }
+            .glass-card { padding: 20px 14px; }
             .hero-title { font-size: 22px; }
+            .features { grid-template-columns: 1fr; }
+            .stats { grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
 <body>
 
-    <!-- ===== ЧАСТИЦЫ НА ФОНЕ ===== -->
+    <!-- ===== ЧАСТИЦЫ ===== -->
     <canvas id="particles-canvas"></canvas>
 
-    <!-- ===== ГЛАВНАЯ КАРТОЧКА ===== -->
+    <!-- ===== КАРТОЧКА ===== -->
     <div class="glass-card">
 
         <!-- Логотип -->
@@ -413,8 +436,56 @@ async def index():
         <div class="badge"><i class="fas fa-truck-fast"></i> Работаем 24/7</div>
 
         <!-- Заголовок -->
-        <div class="hero-title">Доставим груз <span>вовремя</span></div>
-        <div class="hero-sub">От 1 кг до 20 тонн — надёжно, с гарантией и страховкой</div>
+        <div class="hero-title">Всё <span>ради вас</span></div>
+        <div class="hero-sub">Доставим груз по Пермскому краю — от 1 кг до 20 тонн. Надёжно, вовремя, с гарантией.</div>
+
+        <!-- Особенности -->
+        <div class="features">
+            <div class="feature-item">
+                <i class="fas fa-truck"></i>
+                <div>
+                    <span>Фуры</span>
+                    <small>до 20 т</small>
+                </div>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-boxes-packing"></i>
+                <div>
+                    <span>Сборные</span>
+                    <small>от 1 кг</small>
+                </div>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-temperature-low"></i>
+                <div>
+                    <span>Рефрижератор</span>
+                    <small>‑20°C</small>
+                </div>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-route"></i>
+                <div>
+                    <span>Маршруты</span>
+                    <small>оптимальные</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Статистика -->
+        <div class="stats">
+            <div class="stat-item">
+                <span class="num" id="stat1">0</span>
+                <span class="label">Городов</span>
+            </div>
+            <div class="stat-item">
+                <span class="num" id="stat2">0</span>
+                <span class="label">Клиентов</span>
+            </div>
+            <div class="stat-item">
+                <span class="num" id="stat3">0%</span>
+                <span class="label">Страховка</span>
+            </div>
+        </div>
 
         <!-- Форма -->
         <form id="orderForm">
@@ -446,22 +517,6 @@ async def index():
             <div id="status"></div>
         </form>
 
-        <!-- Статистика -->
-        <div class="stats">
-            <div class="stat-item">
-                <span class="num" id="stat1">0</span>
-                <span class="label">Перевозок</span>
-            </div>
-            <div class="stat-item">
-                <span class="num" id="stat2">0</span>
-                <span class="label">Клиентов</span>
-            </div>
-            <div class="stat-item">
-                <span class="num" id="stat3">0%</span>
-                <span class="label">Страховка</span>
-            </div>
-        </div>
-
         <!-- Футер -->
         <div class="footer">
             <a href="/policy">Политика конфиденциальности</a>
@@ -470,9 +525,9 @@ async def index():
         </div>
     </div>
 
-    <!-- ===== АНИМАЦИЯ ЧАСТИЦ ===== -->
+    <!-- ===== СКРИПТЫ ===== -->
     <script>
-        // Частицы
+        // ===== ЧАСТИЦЫ =====
         const canvas = document.getElementById('particles-canvas');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
@@ -569,9 +624,8 @@ async def index():
             }, 30);
         }
 
-        // Запускаем счётчики при загрузке
         setTimeout(() => {
-            animateCounter(document.getElementById('stat1'), 350, '+');
+            animateCounter(document.getElementById('stat1'), 30, '+');
             animateCounter(document.getElementById('stat2'), 358, '+');
             document.getElementById('stat3').textContent = '100%';
         }, 500);
