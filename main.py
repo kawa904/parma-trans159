@@ -2,6 +2,7 @@ from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 import requests
 import os
+import json
 
 app = FastAPI()
 
@@ -280,64 +281,105 @@ async def index():
             letter-spacing: 0.5px;
         }
 
-        /* ===== КАЛЬКУЛЯТОР ===== */
-        .calculator {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.04);
+        /* ===== ВЫБОР ГРУЗЧИКОВ ===== */
+        .workers-select {
+            margin-bottom: 16px;
         }
 
-        .calculator-title {
-            color: #f5c842;
-            font-weight: 700;
-            font-size: 16px;
-            margin-bottom: 12px;
+        .workers-select label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 8px;
+        }
+
+        .workers-select .worker-options {
             display: flex;
-            align-items: center;
-            gap: 10px;
+            gap: 12px;
+            flex-wrap: wrap;
         }
 
-        .calc-row {
+        .worker-option {
+            flex: 1;
+            min-width: 70px;
+            padding: 12px 8px;
+            text-align: center;
+            border-radius: 14px;
+            border: 1.5px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.03);
+            color: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .worker-option i {
+            display: block;
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+
+        .worker-option:hover {
+            border-color: rgba(245, 200, 66, 0.2);
+            background: rgba(245, 200, 66, 0.05);
+        }
+
+        .worker-option.active {
+            border-color: #f5c842;
+            background: rgba(245, 200, 66, 0.1);
+            color: #ffffff;
+            box-shadow: 0 0 20px rgba(245, 200, 66, 0.1);
+        }
+
+        .worker-option .count {
+            font-size: 18px;
+            font-weight: 800;
+            color: #f5c842;
+        }
+
+        /* ===== КОНТАКТЫ ===== */
+        .contacts {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
-            margin-bottom: 10px;
+            margin-bottom: 16px;
         }
 
-        .calc-input {
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.03);
             padding: 12px 14px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            background: rgba(255, 255, 255, 0.04);
-            color: #ffffff;
-            font-size: 14px;
-            font-family: 'Inter', sans-serif;
-            outline: none;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
             transition: 0.3s;
-            width: 100%;
         }
 
-        .calc-input:focus {
-            border-color: rgba(245, 200, 66, 0.3);
-            background: rgba(255, 255, 255, 0.06);
-        }
-
-        .calc-input::placeholder {
-            color: rgba(255, 255, 255, 0.2);
-        }
-
-        .calc-result {
-            text-align: center;
-            padding: 12px;
+        .contact-item:hover {
             background: rgba(245, 200, 66, 0.06);
-            border-radius: 12px;
-            border: 1px solid rgba(245, 200, 66, 0.1);
-            color: #f5c842;
-            font-weight: 700;
+            border-color: rgba(245, 200, 66, 0.12);
+        }
+
+        .contact-item i {
             font-size: 18px;
-            margin-top: 4px;
+            color: #f5c842;
+            width: 24px;
+            text-align: center;
+        }
+
+        .contact-item .contact-text {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .contact-item .contact-label {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         /* ===== ОТЗЫВЫ ===== */
@@ -387,50 +429,48 @@ async def index():
             margin-top: 4px;
         }
 
-        /* ===== КОНТАКТЫ ===== */
-        .contacts {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 16px;
+        /* ===== ФОРМА ОТЗЫВА ===== */
+        .review-form {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
         }
 
-        .contact-item {
+        .review-form .review-title {
+            color: #f5c842;
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
             gap: 10px;
-            background: rgba(255, 255, 255, 0.03);
-            padding: 12px 14px;
-            border-radius: 14px;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            transition: 0.3s;
         }
 
-        .contact-item:hover {
-            background: rgba(245, 200, 66, 0.06);
-            border-color: rgba(245, 200, 66, 0.12);
+        .review-form .stars-select {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
         }
 
-        .contact-item i {
-            font-size: 18px;
+        .review-form .stars-select .star {
+            font-size: 28px;
+            color: rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .review-form .stars-select .star.active {
             color: #f5c842;
-            width: 24px;
-            text-align: center;
         }
 
-        .contact-item .contact-text {
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.7);
+        .review-form .stars-select .star:hover {
+            color: #f5c842;
+            transform: scale(1.2);
         }
 
-        .contact-item .contact-label {
-            font-size: 10px;
-            color: rgba(255, 255, 255, 0.2);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        /* ===== ФОРМА ===== */
+        /* ===== ФОРМА ЗАЯВКИ ===== */
         .form-group {
             position: relative;
             margin-bottom: 14px;
@@ -560,7 +600,7 @@ async def index():
         }
 
         /* ===== СТАТУС ===== */
-        #status {
+        #status, #reviewStatus {
             margin-top: 14px;
             text-align: center;
             font-weight: 600;
@@ -621,6 +661,7 @@ async def index():
             justify-content: center;
             gap: 10px;
             min-width: 120px;
+            text-decoration: none;
         }
 
         .sticky-btn.call-btn {
@@ -665,12 +706,13 @@ async def index():
             .feature-item span { font-size: 12px; }
             .stats { grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
             .stat-item .num { font-size: 20px; }
-            .calc-row { grid-template-columns: 1fr; }
             .contacts { grid-template-columns: 1fr 1fr; }
             .sticky-bottom { padding: 12px 16px; gap: 8px; flex-wrap: wrap; }
             .sticky-btn { padding: 12px 14px; font-size: 13px; min-width: 100px; flex: 1 1 45%; }
             .promo-banner .promo-text { font-size: 13px; }
             .review-item { padding: 14px; }
+            .worker-option { min-width: 50px; padding: 10px 6px; font-size: 12px; }
+            .worker-option i { font-size: 20px; }
         }
 
         @media (max-width: 400px) {
@@ -680,6 +722,7 @@ async def index():
             .stats { grid-template-columns: 1fr 1fr; }
             .contacts { grid-template-columns: 1fr; }
             .sticky-btn { flex: 1 1 100%; }
+            .worker-options { gap: 8px; }
         }
     </style>
 </head>
@@ -785,58 +828,30 @@ async def index():
                 </div>
             </div>
 
-            <!-- Калькулятор -->
-            <div class="calculator">
-                <div class="calculator-title"><i class="fas fa-calculator"></i> Калькулятор стоимости</div>
-                <div class="calc-row">
-                    <input type="text" class="calc-input" id="calcFrom" placeholder="Откуда">
-                    <input type="text" class="calc-input" id="calcTo" placeholder="Куда">
-                </div>
-                <div class="calc-row">
-                    <input type="number" class="calc-input" id="calcWeight" placeholder="Вес (кг)">
-                    <input type="number" class="calc-input" id="calcVolume" placeholder="Объём (м³)">
-                </div>
-                <div class="calc-result" id="calcResult">💰 Примерная стоимость: от 5 000 ₽</div>
-            </div>
-
-            <!-- Отзывы -->
-            <div class="reviews">
-                <div class="review-item">
-                    <div class="review-header">
-                        <div class="review-avatar">👨</div>
-                        <div>
-                            <div class="review-name">Алексей Иванов</div>
-                            <div class="review-city">г. Пермь</div>
-                        </div>
+            <!-- ===== ВЫБОР ГРУЗЧИКОВ ===== -->
+            <div class="workers-select">
+                <label><i class="fas fa-users" style="color: #f5c842; margin-right: 8px;"></i> Сколько грузчиков нужно?</label>
+                <div class="worker-options" id="workerOptions">
+                    <div class="worker-option" data-value="0">
+                        <i class="fas fa-user-slash"></i>
+                        0
                     </div>
-                    <div class="review-text">«Отличная компания! Заказывал перевозку оборудования из Перми в Березники. Всё приехало целое, даже раньше срока. Рекомендую!»</div>
-                    <div class="review-stars">⭐⭐⭐⭐⭐</div>
-                </div>
-                <div class="review-item">
-                    <div class="review-header">
-                        <div class="review-avatar">👩</div>
-                        <div>
-                            <div class="review-name">Екатерина Смирнова</div>
-                            <div class="review-city">г. Соликамск</div>
-                        </div>
+                    <div class="worker-option" data-value="1">
+                        <i class="fas fa-user"></i>
+                        1
                     </div>
-                    <div class="review-text">«Возим продукты в рефрижераторе уже 2 года. Ни разу не подвели. Водители вежливые, документы оформляют быстро.»</div>
-                    <div class="review-stars">⭐⭐⭐⭐⭐</div>
-                </div>
-                <div class="review-item">
-                    <div class="review-header">
-                        <div class="review-avatar">👨</div>
-                        <div>
-                            <div class="review-name">Дмитрий Петров</div>
-                            <div class="review-city">г. Краснокамск</div>
-                        </div>
+                    <div class="worker-option active" data-value="2">
+                        <i class="fas fa-users"></i>
+                        2
                     </div>
-                    <div class="review-text">«Быстро, дёшево, надёжно. Сборный груз отправили из Краснокамска в Кунгур. Приехало за 4 часа. Супер!»</div>
-                    <div class="review-stars">⭐⭐⭐⭐⭐</div>
+                    <div class="worker-option" data-value="3">
+                        <i class="fas fa-users"></i>
+                        3
+                    </div>
                 </div>
             </div>
 
-            <!-- Форма -->
+            <!-- ===== ФОРМА ЗАЯВКИ ===== -->
             <form id="orderForm">
                 <div class="form-group">
                     <i class="fas fa-user"></i>
@@ -874,18 +889,95 @@ async def index():
             </div>
         </div>
 
+        <!-- ===== КАРТОЧКА 2: ОТЗЫВЫ ===== -->
+        <div class="glass-card">
+
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                <i class="fas fa-star" style="color: #f5c842; font-size: 28px;"></i>
+                <h2 style="color: #ffffff; font-size: 20px; font-weight: 700;">Отзывы клиентов</h2>
+            </div>
+
+            <!-- Существующие отзывы -->
+            <div class="reviews" id="reviewsList">
+                <div class="review-item">
+                    <div class="review-header">
+                        <div class="review-avatar">👨</div>
+                        <div>
+                            <div class="review-name">Алексей Иванов</div>
+                            <div class="review-city">г. Пермь</div>
+                        </div>
+                    </div>
+                    <div class="review-text">«Отличная компания! Заказывал перевозку оборудования из Перми в Березники. Всё приехало целое, даже раньше срока. Рекомендую!»</div>
+                    <div class="review-stars">⭐⭐⭐⭐⭐</div>
+                </div>
+                <div class="review-item">
+                    <div class="review-header">
+                        <div class="review-avatar">👩</div>
+                        <div>
+                            <div class="review-name">Екатерина Смирнова</div>
+                            <div class="review-city">г. Соликамск</div>
+                        </div>
+                    </div>
+                    <div class="review-text">«Возим продукты в рефрижераторе уже 2 года. Ни разу не подвели. Водители вежливые, документы оформляют быстро.»</div>
+                    <div class="review-stars">⭐⭐⭐⭐⭐</div>
+                </div>
+                <div class="review-item">
+                    <div class="review-header">
+                        <div class="review-avatar">👨</div>
+                        <div>
+                            <div class="review-name">Дмитрий Петров</div>
+                            <div class="review-city">г. Краснокамск</div>
+                        </div>
+                    </div>
+                    <div class="review-text">«Быстро, дёшево, надёжно. Сборный груз отправили из Краснокамска в Кунгур. Приехало за 4 часа. Супер!»</div>
+                    <div class="review-stars">⭐⭐⭐⭐⭐</div>
+                </div>
+            </div>
+
+            <!-- Форма отзыва -->
+            <div class="review-form">
+                <div class="review-title"><i class="fas fa-pen"></i> Оставить отзыв</div>
+                <form id="reviewForm">
+                    <div class="form-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="reviewName" placeholder="Ваше имя" required>
+                    </div>
+                    <div class="form-group">
+                        <i class="fas fa-city"></i>
+                        <input type="text" id="reviewCity" placeholder="Ваш город" required>
+                    </div>
+                    <div class="stars-select" id="starsSelect">
+                        <span class="star" data-value="1">⭐</span>
+                        <span class="star" data-value="2">⭐</span>
+                        <span class="star" data-value="3">⭐</span>
+                        <span class="star" data-value="4">⭐</span>
+                        <span class="star active" data-value="5">⭐</span>
+                    </div>
+                    <div class="form-group">
+                        <i class="fas fa-comment"></i>
+                        <textarea id="reviewText" placeholder="Ваш отзыв..." rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn" id="reviewSubmitBtn" style="margin-top: 0;">
+                        <i class="fas fa-star" style="margin-right: 12px;"></i> ОТПРАВИТЬ ОТЗЫВ
+                    </button>
+                    <div id="reviewStatus"></div>
+                </form>
+            </div>
+
+        </div>
+
     </div>
 
-    <!-- ===== ЛИПКАЯ КНОПКА (ВНИЗУ ЭКРАНА) ===== -->
+    <!-- ===== ЛИПКАЯ КНОПКА ===== -->
     <div class="sticky-bottom">
-        <a href="tel:+73425555355" class="sticky-btn call-btn" style="text-decoration: none;">
+        <a href="tel:+73425555355" class="sticky-btn call-btn">
             <i class="fas fa-phone"></i>
             <div>
                 <div>Позвонить</div>
                 <div class="btn-label">24/7 бесплатно</div>
             </div>
         </a>
-        <a href="https://wa.me/79573453249" target="_blank" class="sticky-btn whatsapp-btn" style="text-decoration: none;">
+        <a href="https://wa.me/79573453249" target="_blank" class="sticky-btn whatsapp-btn">
             <i class="fab fa-whatsapp"></i>
             <div>
                 <div>WhatsApp</div>
@@ -935,33 +1027,17 @@ async def index():
             canvas.height = window.innerHeight;
         });
 
-        // ===== КАЛЬКУЛЯТОР =====
-        function calcPrice() {
-            const weight = parseInt(document.getElementById('calcWeight').value) || 0;
-            const volume = parseInt(document.getElementById('calcVolume').value) || 0;
-            const from = document.getElementById('calcFrom').value || '';
-            const to = document.getElementById('calcTo').value || '';
+        // ===== ВЫБОР ГРУЗЧИКОВ =====
+        let selectedWorkers = 2;
+        document.querySelectorAll('.worker-option').forEach(el => {
+            el.addEventListener('click', function() {
+                document.querySelectorAll('.worker-option').forEach(o => o.classList.remove('active'));
+                this.classList.add('active');
+                selectedWorkers = parseInt(this.dataset.value);
+            });
+        });
 
-            if (!from || !to || (weight === 0 && volume === 0)) {
-                document.getElementById('calcResult').textContent = '💰 Заполните все поля для расчёта';
-                return;
-            }
-
-            // Простая формула: 50 руб/кг + 200 руб/м³ + базовая 1000 руб
-            const base = 1000;
-            const weightPrice = weight * 50;
-            const volumePrice = volume * 200;
-            const total = base + weightPrice + volumePrice;
-
-            document.getElementById('calcResult').textContent = `💰 Примерная стоимость: от ${total.toLocaleString()} ₽`;
-        }
-
-        document.getElementById('calcFrom').addEventListener('input', calcPrice);
-        document.getElementById('calcTo').addEventListener('input', calcPrice);
-        document.getElementById('calcWeight').addEventListener('input', calcPrice);
-        document.getElementById('calcVolume').addEventListener('input', calcPrice);
-
-        // ===== ОТПРАВКА ФОРМЫ =====
+        // ===== ОТПРАВКА ЗАЯВКИ =====
         document.getElementById('orderForm').onsubmit = async (e) => {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
@@ -985,7 +1061,8 @@ async def index():
                     body: JSON.stringify({
                         name: document.getElementById('name').value,
                         phone: document.getElementById('phone').value,
-                        message: document.getElementById('message').value
+                        message: document.getElementById('message').value,
+                        workers: selectedWorkers
                     })
                 });
                 const data = await res.json();
@@ -993,6 +1070,9 @@ async def index():
                     status.className = 'success';
                     status.textContent = '✅ Заявка отправлена! Мы свяжемся с вами.';
                     document.getElementById('orderForm').reset();
+                    document.querySelectorAll('.worker-option').forEach(o => o.classList.remove('active'));
+                    document.querySelector('.worker-option[data-value="2"]').classList.add('active');
+                    selectedWorkers = 2;
                 } else {
                     status.className = 'error';
                     status.textContent = '❌ Ошибка отправки, попробуйте позже.';
@@ -1004,6 +1084,71 @@ async def index():
             btn.disabled = false;
             btn.innerHTML = '<i class="fas fa-paper-plane" style="margin-right: 12px;"></i> ОТПРАВИТЬ ЗАЯВКУ';
         };
+
+        // ===== ОТПРАВКА ОТЗЫВА =====
+        document.getElementById('reviewForm').onsubmit = async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('reviewSubmitBtn');
+            const status = document.getElementById('reviewStatus');
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ОТПРАВКА...';
+            status.className = '';
+            status.textContent = '';
+
+            try {
+                const res = await fetch('/review', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name: document.getElementById('reviewName').value,
+                        city: document.getElementById('reviewCity').value,
+                        stars: document.querySelector('.star.active')?.dataset.value || '5',
+                        text: document.getElementById('reviewText').value
+                    })
+                });
+                const data = await res.json();
+                if (data.ok) {
+                    status.className = 'success';
+                    status.textContent = '✅ Отзыв отправлен! Спасибо!';
+                    document.getElementById('reviewForm').reset();
+                    document.querySelectorAll('.star').forEach(s => s.classList.remove('active'));
+                    document.querySelector('.star[data-value="5"]').classList.add('active');
+                    // Добавляем отзыв на страницу
+                    const reviewsList = document.getElementById('reviewsList');
+                    const newReview = document.createElement('div');
+                    newReview.className = 'review-item';
+                    newReview.innerHTML = `
+                        <div class="review-header">
+                            <div class="review-avatar">👤</div>
+                            <div>
+                                <div class="review-name">${document.getElementById('reviewName').value}</div>
+                                <div class="review-city">г. ${document.getElementById('reviewCity').value}</div>
+                            </div>
+                        </div>
+                        <div class="review-text">«${document.getElementById('reviewText').value}»</div>
+                        <div class="review-stars">${'⭐'.repeat(parseInt(document.querySelector('.star.active')?.dataset.value || 5))}</div>
+                    `;
+                    reviewsList.prepend(newReview);
+                } else {
+                    status.className = 'error';
+                    status.textContent = '❌ Ошибка отправки, попробуйте позже.';
+                }
+            } catch {
+                status.className = 'error';
+                status.textContent = '❌ Ошибка соединения. Проверьте интернет.';
+            }
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-star" style="margin-right: 12px;"></i> ОТПРАВИТЬ ОТЗЫВ';
+        };
+
+        // ===== ЗВЁЗДЫ ДЛЯ ОТЗЫВОВ =====
+        document.querySelectorAll('.star').forEach(star => {
+            star.addEventListener('click', function() {
+                document.querySelectorAll('.star').forEach(s => s.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
 
         // ===== СЧЁТЧИКИ =====
         function animateCounter(el, target, suffix = '') {
@@ -1031,15 +1176,45 @@ async def index():
     return HTMLResponse(content=html)
 
 
-# ===== ОТПРАВКА В TELEGRAM =====
+# ===== ОТПРАВКА ЗАЯВКИ В TELEGRAM =====
 @app.post("/send")
 async def send(data: dict):
+    workers_count = data.get('workers', 0)
+    workers_text = {
+        0: '👤 Без грузчиков',
+        1: '👤 1 грузчик',
+        2: '👥 2 грузчика',
+        3: '👥 3 грузчика'
+    }.get(workers_count, f'👥 {workers_count} грузчика(ов)')
+
     text = f"""📦 НОВАЯ ЗАЯВКА
 
 👤 Имя: {data.get('name', 'Не указано')}
 📞 Телефон: {data.get('phone', 'Не указан')}
-📝 Описание: {data.get('message', 'Не указано')}"""
-    
+📝 Описание: {data.get('message', 'Не указано')}
+🛠 {workers_text}"""
+
+    url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
+    try:
+        r = requests.post(url, json={"chat_id": TELEGRAM_CHAT_ID, "text": text})
+        return {"ok": r.status_code == 200}
+    except:
+        return {"ok": False}
+
+
+# ===== ОТПРАВКА ОТЗЫВА В TELEGRAM =====
+@app.post("/review")
+async def review(data: dict):
+    stars = int(data.get('stars', 5))
+    stars_display = '⭐' * stars
+
+    text = f"""💬 НОВЫЙ ОТЗЫВ
+
+👤 Имя: {data.get('name', 'Не указано')}
+📍 Город: {data.get('city', 'Не указан')}
+⭐ Оценка: {stars_display} ({stars}/5)
+📝 Текст: {data.get('text', 'Не указан')}"""
+
     url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
     try:
         r = requests.post(url, json={"chat_id": TELEGRAM_CHAT_ID, "text": text})
