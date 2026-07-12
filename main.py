@@ -16,7 +16,7 @@ async def index():
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>ПАРМА ТРАНС — Перевозки по Пермскому краю</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -27,14 +27,12 @@ async def index():
             font-family: 'Inter', sans-serif;
             background: #0a0f1e;
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             padding: 20px;
             position: relative;
+            padding-bottom: 100px;
         }
 
-        /* ===== ФОН С ЧАСТИЦАМИ ===== */
+        /* ===== ЧАСТИЦЫ ===== */
         #particles-canvas {
             position: fixed;
             top: 0;
@@ -45,22 +43,28 @@ async def index():
             pointer-events: none;
         }
 
-        /* ===== ГЛАВНАЯ КАРТОЧКА ===== */
-        .glass-card {
+        /* ===== КОНТЕЙНЕР ===== */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
             position: relative;
             z-index: 1;
-            max-width: 560px;
-            width: 100%;
+        }
+
+        /* ===== КАРТОЧКА ===== */
+        .glass-card {
+            position: relative;
             background: rgba(255, 255, 255, 0.04);
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
             border-radius: 48px;
-            padding: 48px 40px;
+            padding: 40px 32px;
             border: 1px solid rgba(255, 255, 255, 0.08);
             box-shadow: 
                 0 30px 80px rgba(0, 0, 0, 0.6),
                 inset 0 0 80px rgba(245, 200, 66, 0.04),
                 0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+            margin-bottom: 20px;
             transition: all 0.4s ease;
         }
 
@@ -82,12 +86,53 @@ async def index():
             100% { opacity: 1; }
         }
 
-        /* ===== ЛОГОТИП ===== */
+        /* ===== АКЦИЯ ===== */
+        .promo-banner {
+            background: linear-gradient(135deg, rgba(245, 200, 66, 0.15), rgba(245, 200, 66, 0.05));
+            border: 1px solid rgba(245, 200, 66, 0.2);
+            border-radius: 16px;
+            padding: 12px 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: pulseBanner 2s ease-in-out infinite;
+        }
+
+        @keyframes pulseBanner {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .promo-banner i {
+            color: #f5c842;
+            font-size: 24px;
+            animation: shake 1s ease-in-out infinite;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-10deg); }
+            75% { transform: rotate(10deg); }
+        }
+
+        .promo-banner .promo-text {
+            font-size: 15px;
+            font-weight: 700;
+            color: #f5c842;
+        }
+
+        .promo-banner .promo-desc {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* ===== ЛОГО ===== */
         .logo-section {
             display: flex;
             align-items: center;
             gap: 16px;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
 
         .logo-icon {
@@ -135,7 +180,7 @@ async def index():
             letter-spacing: 1px;
             text-transform: uppercase;
             border: 1px solid rgba(245, 200, 66, 0.12);
-            margin-bottom: 16px;
+            margin-bottom: 12px;
         }
 
         .badge i { margin-right: 8px; }
@@ -159,7 +204,7 @@ async def index():
             font-weight: 400;
         }
 
-        /* ===== ОСОБЕННОСТИ (иконки) ===== */
+        /* ===== ОСОБЕННОСТИ ===== */
         .features {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -209,7 +254,7 @@ async def index():
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
             gap: 12px;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             padding: 16px 0;
             border-top: 1px solid rgba(255, 255, 255, 0.04);
             border-bottom: 1px solid rgba(255, 255, 255, 0.04);
@@ -231,6 +276,156 @@ async def index():
             font-size: 10px;
             color: rgba(255, 255, 255, 0.3);
             font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ===== КАЛЬКУЛЯТОР ===== */
+        .calculator {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .calculator-title {
+            color: #f5c842;
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .calc-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .calc-input {
+            padding: 12px 14px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.04);
+            color: #ffffff;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            transition: 0.3s;
+            width: 100%;
+        }
+
+        .calc-input:focus {
+            border-color: rgba(245, 200, 66, 0.3);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .calc-input::placeholder {
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        .calc-result {
+            text-align: center;
+            padding: 12px;
+            background: rgba(245, 200, 66, 0.06);
+            border-radius: 12px;
+            border: 1px solid rgba(245, 200, 66, 0.1);
+            color: #f5c842;
+            font-weight: 700;
+            font-size: 18px;
+            margin-top: 4px;
+        }
+
+        /* ===== ОТЗЫВЫ ===== */
+        .reviews {
+            margin-bottom: 20px;
+        }
+
+        .review-item {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 16px 18px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            margin-bottom: 10px;
+        }
+
+        .review-item .review-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 6px;
+        }
+
+        .review-item .review-avatar {
+            font-size: 32px;
+        }
+
+        .review-item .review-name {
+            font-weight: 700;
+            color: #ffffff;
+            font-size: 15px;
+        }
+
+        .review-item .review-city {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .review-item .review-text {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .review-item .review-stars {
+            color: #f5c842;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        /* ===== КОНТАКТЫ ===== */
+        .contacts {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 12px 14px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: 0.3s;
+        }
+
+        .contact-item:hover {
+            background: rgba(245, 200, 66, 0.06);
+            border-color: rgba(245, 200, 66, 0.12);
+        }
+
+        .contact-item i {
+            font-size: 18px;
+            color: #f5c842;
+            width: 24px;
+            text-align: center;
+        }
+
+        .contact-item .contact-text {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .contact-item .contact-label {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.2);
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -326,7 +521,7 @@ async def index():
         .checkbox-group a:hover { border-color: #f5c842; }
         .required { color: #f5c842; }
 
-        /* ===== КНОПКА ===== */
+        /* ===== КНОПКИ ===== */
         .submit-btn {
             width: 100%;
             padding: 16px;
@@ -394,9 +589,74 @@ async def index():
 
         .footer a:hover { color: #f5c842; }
 
+        /* ===== ЛИПКАЯ КНОПКА ===== */
+        .sticky-bottom {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 16px 20px;
+            background: rgba(10, 15, 30, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+            flex-wrap: wrap;
+        }
+
+        .sticky-btn {
+            flex: 1;
+            padding: 14px 16px;
+            border: none;
+            border-radius: 16px;
+            font-size: 15px;
+            font-weight: 700;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-width: 120px;
+        }
+
+        .sticky-btn.call-btn {
+            background: linear-gradient(135deg, #25d366, #128c7e);
+            color: #ffffff;
+            box-shadow: 0 8px 30px rgba(37, 211, 102, 0.3);
+        }
+
+        .sticky-btn.whatsapp-btn {
+            background: linear-gradient(135deg, #25d366, #128c7e);
+            color: #ffffff;
+            box-shadow: 0 8px 30px rgba(37, 211, 102, 0.3);
+        }
+
+        .sticky-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .sticky-btn:active {
+            transform: translateY(0px);
+        }
+
+        .sticky-btn i {
+            font-size: 18px;
+        }
+
+        .sticky-btn .btn-label {
+            font-size: 11px;
+            font-weight: 400;
+            opacity: 0.7;
+        }
+
         /* ===== АДАПТИВ ===== */
         @media (max-width: 600px) {
-            .glass-card { padding: 28px 18px; border-radius: 32px; }
+            body { padding: 12px; padding-bottom: 100px; }
+            .glass-card { padding: 24px 16px; border-radius: 32px; }
             .hero-title { font-size: 26px; }
             .logo-text h1 { font-size: 22px; }
             .logo-icon { font-size: 34px; }
@@ -405,13 +665,21 @@ async def index():
             .feature-item span { font-size: 12px; }
             .stats { grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
             .stat-item .num { font-size: 20px; }
+            .calc-row { grid-template-columns: 1fr; }
+            .contacts { grid-template-columns: 1fr 1fr; }
+            .sticky-bottom { padding: 12px 16px; gap: 8px; flex-wrap: wrap; }
+            .sticky-btn { padding: 12px 14px; font-size: 13px; min-width: 100px; flex: 1 1 45%; }
+            .promo-banner .promo-text { font-size: 13px; }
+            .review-item { padding: 14px; }
         }
 
         @media (max-width: 400px) {
-            .glass-card { padding: 20px 14px; }
+            .glass-card { padding: 18px 12px; }
             .hero-title { font-size: 22px; }
             .features { grid-template-columns: 1fr; }
             .stats { grid-template-columns: 1fr 1fr; }
+            .contacts { grid-template-columns: 1fr; }
+            .sticky-btn { flex: 1 1 100%; }
         }
     </style>
 </head>
@@ -420,109 +688,210 @@ async def index():
     <!-- ===== ЧАСТИЦЫ ===== -->
     <canvas id="particles-canvas"></canvas>
 
-    <!-- ===== КАРТОЧКА ===== -->
-    <div class="glass-card">
+    <!-- ===== КОНТЕЙНЕР ===== -->
+    <div class="container">
 
-        <!-- Логотип -->
-        <div class="logo-section">
-            <div class="logo-icon">🚛</div>
-            <div class="logo-text">
-                <h1>ПАРМА ТРАНС</h1>
-                <span>Перевозки по Пермскому краю</span>
+        <!-- ===== КАРТОЧКА 1 ===== -->
+        <div class="glass-card">
+
+            <!-- Акция -->
+            <div class="promo-banner">
+                <i class="fas fa-gift"></i>
+                <div>
+                    <div class="promo-text">🔥 АКЦИЯ: Скидка 15% на первый заказ!</div>
+                    <div class="promo-desc">Действует до 01.08.2026. При заказе от 5 тонн.</div>
+                </div>
+            </div>
+
+            <!-- Логотип -->
+            <div class="logo-section">
+                <div class="logo-icon">🚛</div>
+                <div class="logo-text">
+                    <h1>ПАРМА ТРАНС</h1>
+                    <span>Перевозки по Пермскому краю</span>
+                </div>
+            </div>
+
+            <!-- Бейдж -->
+            <div class="badge"><i class="fas fa-truck-fast"></i> Работаем 24/7</div>
+
+            <!-- Заголовок -->
+            <div class="hero-title">Всё <span>ради вас</span></div>
+            <div class="hero-sub">Доставим груз по Пермскому краю — от 1 кг до 20 тонн. Надёжно, вовремя, с гарантией.</div>
+
+            <!-- Особенности -->
+            <div class="features">
+                <div class="feature-item">
+                    <i class="fas fa-truck"></i>
+                    <div>
+                        <span>Фуры</span>
+                        <small>до 20 т</small>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-boxes-packing"></i>
+                    <div>
+                        <span>Сборные</span>
+                        <small>от 1 кг</small>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-temperature-low"></i>
+                    <div>
+                        <span>Рефрижератор</span>
+                        <small>‑20°C</small>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-route"></i>
+                    <div>
+                        <span>Маршруты</span>
+                        <small>оптимальные</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Статистика -->
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="num" id="stat1">0</span>
+                    <span class="label">Городов</span>
+                </div>
+                <div class="stat-item">
+                    <span class="num" id="stat2">0</span>
+                    <span class="label">Клиентов</span>
+                </div>
+                <div class="stat-item">
+                    <span class="num" id="stat3">0%</span>
+                    <span class="label">Страховка</span>
+                </div>
+            </div>
+
+            <!-- Контакты -->
+            <div class="contacts">
+                <div class="contact-item">
+                    <i class="fas fa-clock"></i>
+                    <div>
+                        <div class="contact-text">24/7</div>
+                        <div class="contact-label">Работаем</div>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <div>
+                        <div class="contact-text">+7 (342) 555-53-55</div>
+                        <div class="contact-label">Телефон</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Калькулятор -->
+            <div class="calculator">
+                <div class="calculator-title"><i class="fas fa-calculator"></i> Калькулятор стоимости</div>
+                <div class="calc-row">
+                    <input type="text" class="calc-input" id="calcFrom" placeholder="Откуда">
+                    <input type="text" class="calc-input" id="calcTo" placeholder="Куда">
+                </div>
+                <div class="calc-row">
+                    <input type="number" class="calc-input" id="calcWeight" placeholder="Вес (кг)">
+                    <input type="number" class="calc-input" id="calcVolume" placeholder="Объём (м³)">
+                </div>
+                <div class="calc-result" id="calcResult">💰 Примерная стоимость: от 5 000 ₽</div>
+            </div>
+
+            <!-- Отзывы -->
+            <div class="reviews">
+                <div class="review-item">
+                    <div class="review-header">
+                        <div class="review-avatar">👨</div>
+                        <div>
+                            <div class="review-name">Алексей Иванов</div>
+                            <div class="review-city">г. Пермь</div>
+                        </div>
+                    </div>
+                    <div class="review-text">«Отличная компания! Заказывал перевозку оборудования из Перми в Березники. Всё приехало целое, даже раньше срока. Рекомендую!»</div>
+                    <div class="review-stars">⭐⭐⭐⭐⭐</div>
+                </div>
+                <div class="review-item">
+                    <div class="review-header">
+                        <div class="review-avatar">👩</div>
+                        <div>
+                            <div class="review-name">Екатерина Смирнова</div>
+                            <div class="review-city">г. Соликамск</div>
+                        </div>
+                    </div>
+                    <div class="review-text">«Возим продукты в рефрижераторе уже 2 года. Ни разу не подвели. Водители вежливые, документы оформляют быстро.»</div>
+                    <div class="review-stars">⭐⭐⭐⭐⭐</div>
+                </div>
+                <div class="review-item">
+                    <div class="review-header">
+                        <div class="review-avatar">👨</div>
+                        <div>
+                            <div class="review-name">Дмитрий Петров</div>
+                            <div class="review-city">г. Краснокамск</div>
+                        </div>
+                    </div>
+                    <div class="review-text">«Быстро, дёшево, надёжно. Сборный груз отправили из Краснокамска в Кунгур. Приехало за 4 часа. Супер!»</div>
+                    <div class="review-stars">⭐⭐⭐⭐⭐</div>
+                </div>
+            </div>
+
+            <!-- Форма -->
+            <form id="orderForm">
+                <div class="form-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="name" placeholder="Ваше имя" required>
+                </div>
+                <div class="form-group">
+                    <i class="fas fa-phone"></i>
+                    <input type="tel" id="phone" placeholder="Телефон" required>
+                </div>
+                <div class="form-group">
+                    <i class="fas fa-box"></i>
+                    <textarea id="message" placeholder="Описание груза (маршрут, вес, объём)"></textarea>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="consent" required>
+                    <label for="consent">
+                        Даю согласие на обработку данных по <a href="/consent" target="_blank">ФЗ-152</a>
+                        <span class="required">*</span>
+                    </label>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    <i class="fas fa-paper-plane" style="margin-right: 12px;"></i> ОТПРАВИТЬ ЗАЯВКУ
+                </button>
+
+                <div id="status"></div>
+            </form>
+
+            <!-- Футер -->
+            <div class="footer">
+                <a href="/policy">Политика конфиденциальности</a>
+                <span style="margin: 0 6px;">•</span>
+                <a href="/consent">Согласие ФЗ-152</a>
             </div>
         </div>
 
-        <!-- Бейдж -->
-        <div class="badge"><i class="fas fa-truck-fast"></i> Работаем 24/7</div>
+    </div>
 
-        <!-- Заголовок -->
-        <div class="hero-title">Всё <span>ради вас</span></div>
-        <div class="hero-sub">Доставим груз по Пермскому краю — от 1 кг до 20 тонн. Надёжно, вовремя, с гарантией.</div>
-
-        <!-- Особенности -->
-        <div class="features">
-            <div class="feature-item">
-                <i class="fas fa-truck"></i>
-                <div>
-                    <span>Фуры</span>
-                    <small>до 20 т</small>
-                </div>
+    <!-- ===== ЛИПКАЯ КНОПКА (ВНИЗУ ЭКРАНА) ===== -->
+    <div class="sticky-bottom">
+        <a href="tel:+73425555355" class="sticky-btn call-btn" style="text-decoration: none;">
+            <i class="fas fa-phone"></i>
+            <div>
+                <div>Позвонить</div>
+                <div class="btn-label">24/7 бесплатно</div>
             </div>
-            <div class="feature-item">
-                <i class="fas fa-boxes-packing"></i>
-                <div>
-                    <span>Сборные</span>
-                    <small>от 1 кг</small>
-                </div>
+        </a>
+        <a href="https://wa.me/79573453249" target="_blank" class="sticky-btn whatsapp-btn" style="text-decoration: none;">
+            <i class="fab fa-whatsapp"></i>
+            <div>
+                <div>WhatsApp</div>
+                <div class="btn-label">Написать</div>
             </div>
-            <div class="feature-item">
-                <i class="fas fa-temperature-low"></i>
-                <div>
-                    <span>Рефрижератор</span>
-                    <small>‑20°C</small>
-                </div>
-            </div>
-            <div class="feature-item">
-                <i class="fas fa-route"></i>
-                <div>
-                    <span>Маршруты</span>
-                    <small>оптимальные</small>
-                </div>
-            </div>
-        </div>
-
-        <!-- Статистика -->
-        <div class="stats">
-            <div class="stat-item">
-                <span class="num" id="stat1">0</span>
-                <span class="label">Городов</span>
-            </div>
-            <div class="stat-item">
-                <span class="num" id="stat2">0</span>
-                <span class="label">Клиентов</span>
-            </div>
-            <div class="stat-item">
-                <span class="num" id="stat3">0%</span>
-                <span class="label">Страховка</span>
-            </div>
-        </div>
-
-        <!-- Форма -->
-        <form id="orderForm">
-            <div class="form-group">
-                <i class="fas fa-user"></i>
-                <input type="text" id="name" placeholder="Ваше имя" required>
-            </div>
-            <div class="form-group">
-                <i class="fas fa-phone"></i>
-                <input type="tel" id="phone" placeholder="Телефон" required>
-            </div>
-            <div class="form-group">
-                <i class="fas fa-box"></i>
-                <textarea id="message" placeholder="Описание груза (маршрут, вес, объём)"></textarea>
-            </div>
-
-            <div class="checkbox-group">
-                <input type="checkbox" id="consent" required>
-                <label for="consent">
-                    Даю согласие на обработку данных по <a href="/consent" target="_blank">ФЗ-152</a>
-                    <span class="required">*</span>
-                </label>
-            </div>
-
-            <button type="submit" class="submit-btn" id="submitBtn">
-                <i class="fas fa-paper-plane" style="margin-right: 12px;"></i> ОТПРАВИТЬ ЗАЯВКУ
-            </button>
-
-            <div id="status"></div>
-        </form>
-
-        <!-- Футер -->
-        <div class="footer">
-            <a href="/policy">Политика конфиденциальности</a>
-            <span style="margin: 0 6px;">•</span>
-            <a href="/consent">Согласие ФЗ-152</a>
-        </div>
+        </a>
     </div>
 
     <!-- ===== СКРИПТЫ ===== -->
@@ -565,6 +934,32 @@ async def index():
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
         });
+
+        // ===== КАЛЬКУЛЯТОР =====
+        function calcPrice() {
+            const weight = parseInt(document.getElementById('calcWeight').value) || 0;
+            const volume = parseInt(document.getElementById('calcVolume').value) || 0;
+            const from = document.getElementById('calcFrom').value || '';
+            const to = document.getElementById('calcTo').value || '';
+
+            if (!from || !to || (weight === 0 && volume === 0)) {
+                document.getElementById('calcResult').textContent = '💰 Заполните все поля для расчёта';
+                return;
+            }
+
+            // Простая формула: 50 руб/кг + 200 руб/м³ + базовая 1000 руб
+            const base = 1000;
+            const weightPrice = weight * 50;
+            const volumePrice = volume * 200;
+            const total = base + weightPrice + volumePrice;
+
+            document.getElementById('calcResult').textContent = `💰 Примерная стоимость: от ${total.toLocaleString()} ₽`;
+        }
+
+        document.getElementById('calcFrom').addEventListener('input', calcPrice);
+        document.getElementById('calcTo').addEventListener('input', calcPrice);
+        document.getElementById('calcWeight').addEventListener('input', calcPrice);
+        document.getElementById('calcVolume').addEventListener('input', calcPrice);
 
         // ===== ОТПРАВКА ФОРМЫ =====
         document.getElementById('orderForm').onsubmit = async (e) => {
@@ -610,7 +1005,7 @@ async def index():
             btn.innerHTML = '<i class="fas fa-paper-plane" style="margin-right: 12px;"></i> ОТПРАВИТЬ ЗАЯВКУ';
         };
 
-        // ===== АНИМАЦИЯ СЧЁТЧИКА =====
+        // ===== СЧЁТЧИКИ =====
         function animateCounter(el, target, suffix = '') {
             let current = 0;
             const step = Math.ceil(target / 40);
